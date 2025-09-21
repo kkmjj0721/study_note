@@ -102,6 +102,17 @@ length(str);  % 统计字符个数，结果为 20（逐个字符：I'm learning 
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509202153500.png)
 
+> **注：**
+>
+> ​	**此处ln函数错误，正确写法为 log，表示为求已e为底的对数**
+>
+> ​	**直接使用exp不能表示自然对数，必须要在后面加上括号并在里面写上数字；如：**
+>
+> ```matlab
+> exp(1)      % 表示e
+> exp(2) 		% 表示e的平方
+> ```
+
 
 
 ##### **2.3.2、关系运算函数：**
@@ -144,7 +155,26 @@ length(str);  % 统计字符个数，结果为 20（逐个字符：I'm learning 
   3. Multiplication and division    *, /
   4. Addition and subtraction    +, -
 
-**小练习：**
+**Exercise：**
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509202237277.png)
+
+**Answer：**
+
+```matlab
+1、 cos(sqrt((1+2+3+4)^3/5))
+2、sin(sqrt(pi)) + log(tan(1))
+3、2^(3.5 * 1.7)
+4、exp(1)^sin(10)
+```
+
+
+
+
+
+> **附：可打开该网页进行查看一些数学函数（也可查看上面的图片，但不全）**
+>
+> **[数学 — 函数](https://ww2.mathworks.cn/help/matlab/referencelist.html?type=function&s_tid=CRUX_topnav&category=mathematics)**
+
+
 
