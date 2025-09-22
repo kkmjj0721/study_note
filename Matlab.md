@@ -383,19 +383,21 @@ A = [1:100]
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221607409.png)
 
+不只矩阵可以使用Colon Operator，字符串也可以，如下：
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221610290.png)
 
+注意，在这个地方的用法不止可以使用等差级数来生成，还可以用其来查找所对应的行与列，如下：
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221626075.png)
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221627625.png)
 
+这时，我们可以将上一小节的矩阵进行删除某一列或某一行，如下：
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221631138.png)
 
-
-
-
-
-
-
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221631158.png)
 
 
 
