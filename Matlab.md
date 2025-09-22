@@ -119,7 +119,9 @@ length(str);  % 统计字符个数，结果为 20（逐个字符：I'm learning 
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509202155912.png)
 
-
+> **附：可打开该网页进行查看一些数学函数（也可查看上面的图片，但不全）**
+>
+> **[数学 — 函数](https://ww2.mathworks.cn/help/matlab/referencelist.html?type=function&s_tid=CRUX_topnav&category=mathematics)**
 
 
 
@@ -294,7 +296,7 @@ format rat
 
 经过上面两种表达，我们知道，每行的元素用**space**分开，使用**；**可以进行换行；
 
-##### **3.4.1、Array  Indexing：**
+##### **3.4.1、Array  Indexing（索引）：**
 
 在向量中：我们可以用该Variables的名字加上括号，括号内部写上数字，即可查找，如下：
 
@@ -321,7 +323,7 @@ A(4)   %该值为2
 A([1 3 5])
 A([1 3; 1 3])
 A(3,2)
-A([1 3], [1 3])
+A([1 3], [1 2])
 ```
 
 现在我们来简单讲一下：
@@ -330,11 +332,84 @@ A([1 3], [1 3])
 
 2、用 2×2 矩阵作为索引，提取对应位置的元素，并组织成与索引矩阵同形状的矩阵，结果也为2×2的矩阵。
 
+以上面的A矩阵为例，此处得到的为：
+$$
+\begin{bmatrix}
+1 & 7\\
+1 & 7\\ 
+\end{bmatrix}
+$$
+
+3、提取 “第 3 行，第 2 列” 的元素。
+
+4、该方法为分别对行与列取，如此处取1，3行，1，2列，提取行与列交叉处的元素，结果为2乘2的矩阵，如下：
+$$
+\begin{bmatrix}
+1 & 2\\
+7 & 8\\ 
+\end{bmatrix}
+$$
 
 
-> **附：可打开该网页进行查看一些数学函数（也可查看上面的图片，但不全）**
->
-> **[数学 — 函数](https://ww2.mathworks.cn/help/matlab/referencelist.html?type=function&s_tid=CRUX_topnav&category=mathematics)**
+##### **3.4.2、Replacing Entries（替换）：**
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221503904.png)
+
+```matlab
+A(2) = [91] 
+```
+
+使用上面的代码我们可以将矩阵中某一位的数值进行修改；
+
+​		我们在上一小节（索引）中有讲到对一个矩阵里的元素进行查找，同样的我们查找后在后面加上一个 “=” ，并且后面加上一个向量or矩阵，即可对选中的部分进行修改；
+
+
+
+##### **3.4.3、Colon Operator（等差级数）：**
+
+在我们写矩阵or向量的时候，可能某一行比较长，这时我们使用下面这种方法会比较方便，快捷，如下：
+
+```matlab
+A = [1:100]
+```
+
+能帮我们快速生成一个向量，长度为100；可看下图：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221541985.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
