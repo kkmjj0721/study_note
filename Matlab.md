@@ -377,9 +377,11 @@ A = [1:100]
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221541985.png)
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221601124.png)
 
+我们也可以用这种来创建一个矩阵，如下：
 
-
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221607409.png)
 
 
 
