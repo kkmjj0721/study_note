@@ -4,7 +4,7 @@
 
 **1. 基本操作与矩阵输入**
 
-
+**2.结构化程式与自定义函数**
 
 
 
@@ -401,6 +401,107 @@ A = [1:100]
 
 
 
+##### **3.4.4、Array Concatenation（数组连接）：**
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509221643539.png)
+
+
+
+##### **3.4.5、Array Manipulation（数组操作）：**
+
+**Operators on array（运算符）：**
+
+​		`+`    `-`    `*`    `/`    `^`    `.`    `‘`
+
+`+`，`-`，`*` 我们在学过线性代数很容易理解，`/`的话我们可以理解为乘以其逆矩阵；除此我们还有`.*`，表示每一个元素分别相加，得到新的矩阵；`./`可以看成和`.*`一样的操作；
+
+注意：
+
+​		**我们使用`^`的时候，不是对矩阵内的元素进行幂运算，而是n个矩阵相乘；而`.^`则是对矩阵内的每个元素**
+
+**进行幂运算；**
+
+`‘`是对矩阵的转置；
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230032024.png)
+
+
+
+##### **3.4.6、Some Special Matrix：**
+
+1)、eye(n)：n×n identity matrix，n维的单位矩阵，可看下图：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230041393.png)
+
+2)、zeros(n1,n2)：n1×n2 zero matrix：表示n1×n2维的矩阵，矩阵里的所有元素均为0，可看下图：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230043129.png)
+
+3)、ones(n1,n2)：n1×n2 matrix with every entry as 1：表示n1×n2维的矩阵，矩阵里的所有元素均为1，可看下图：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230046463.png)
+
+4)、diag()：diagonal matrix：对角线矩阵，我们在括号内输入一个向量，其会将该向量的值赋到生成矩阵的主对角线					上，并且其余地方均为0，可看下图：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230051611.png)
+
+5)、rand()：uniformly distributed random numbers：
+
+| 调用格式        | 功能描述                                                     |
+| --------------- | ------------------------------------------------------------ |
+| `rand()`        | 生成一个单个随机数（1×1 标量），取值范围 [0, 1)              |
+| `rand(n)`       | 生成一个 n×n 的方阵，每个元素为 [0, 1) 区间的均匀随机数      |
+| `rand(m, n)`    | 生成一个 m×n 的矩阵（m 行，n 列），元素取值 [0, 1)           |
+| `rand([m, n])`  | 与 `rand(m, n)` 效果相同，参数用向量 `[m, n]` 指定维度       |
+| `rand(m, n, k)` | 生成一个 m×n×k 的三维数组（可扩展到更高维度），每个元素为 [0, 1) 随机数 |
+
+该像不做讲解，可在matlab中自行验证；
+
+6)、linspace()：linearly spaced vectors：
+
+`linspace` 的核心是生成**从 `start` 到 `end` 的 `n` 个等间距数值向量**，语法为：向量 = linspace(start, end, n)
+
+- `start`：区间起点（必选）；
+- `end`：区间终点（必选，包含在向量中）；
+- `n`：生成的点数（必选，若省略则默认生成 100 个点）。
+
+本项也不做讲解，详细的可在网络上自行查找；
+
+
+
+##### **3.4.7、Some Matrix Related Functions：**
+
+1）、max：我们可以使用max来查找一个Matrix每一列的最大项，得到的结果为一个Vector ，我们可以对得到的Vector ，再进行max操作，即可得到一个Matrix中的最大值；
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230112967.png)
+
+2）、min：和上面一样，但是它是求最小的；
+
+3）、sum：我们可以使用sum对矩阵进行求和，其会对每一列分别求和，得到一个Vector，我们同样可以用上面的操作进行运算，最后得到一个矩阵中所有元素的和；
+
+4）、mean：求平均值的，但是其也是对每一列进行操作，我们按上面方法来就行了；
+
+5）、sort(A)：对矩阵A进行列排序（从小到大）；
+
+6）、sortrows：以某一列为键，重新排列整行数据（从小到大），可看下图：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230119961.png)
+
+当然，我们可以指定以那一列为键进行排列，如下：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230120344.png)
+
+7）、size()：我们可以用该函数进行查看矩阵的维数，如下：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230123128.png)
+
+8）、length()：得到Matrix中最长的一个维度，如下：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230125000.png)
+
+9）、find()：该函数，能够得到Matrix中某一个值的位置，如下：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509230128958.png)
 
 
 
@@ -410,8 +511,7 @@ A = [1:100]
 
 
 
-
-
+## **二、结构化程式与自定义函数：**
 
 
 
