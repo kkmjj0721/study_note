@@ -546,17 +546,64 @@ end
 
 我们点击运行会让我们保存，然后我们记住保存的文件名，可以直接在命令行输入该文件的名字即可运行该脚本（不带后缀的文件名）；
 
+> **脚本编程技巧：**
+>
+> - **clear all 用于删除之前的所有变量**
+> - **close_all 关闭所有的图形**
+>
+> ​	**在命令末尾使用分号；以抑制不需要的输出**
+>
+> ​	**使用省略号`…`（将一行过长的代码延续到下一行），使脚本更易读**
+
 
 
 
 
 #### **1.2、写一个简单的函数文件：**
 
+**基本结构：**
 
+```matlab
+function [输出形参表]=函数名(输入形参表)
+```
+**调用函数：**
 
+```matlab
+[输出参数列表]=函数名(输入参数列表)
+```
 
+> **注：一般我们的函数名与文件名一致；**
 
+**Exercise：**
 
+​		Write a function that calculate the displacement of free falling for given initial displacement x0，initial velocity v0，and duration of falling t（编写一个函数，以计算给定初始位移x0，初始速度V0和跌落t的持续时间的自由下落位移）： 
+
+```matlab
+function x = freebody(x0,v0,t)
+% x0：初始位移
+% v0：初始速度
+% t：当前时间
+% 返回值：当前位移
+x = x0 + v0*t +1/2*9.8*t*t;
+```
+
+我们可以将函数里的乘改为点乘，这样在我们输入一个Vector时，其可以将该Vector里的每个值都算出来；如下：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509240019010.png)
+
+##### **1.2.1、Function Default Variables（函数默认变量）：**
+
+1、inputname：Variable name of function input（函数输入的变量名称）
+
+2、mfilename：File name of currently running function（当前运行函数的文件名）
+
+3、nargin：Number of function input arguments（函数输入参数的数量）
+
+4、nargout：Number of function output arguments（函数输出参数的数量）
+
+5、varargin：Variable length input argument list（可变长度输入参数列表，主要用在Vector  和  Matrix）
+
+6、varargout：Variable length outputargument list（可变输出参数列表）
 
 
 
@@ -670,6 +717,39 @@ end
 
 
 
+**Exercise：**
+
+​		use while loop to calculate the summation of the series 1+2+3+……+999
+
+代码如下：
+
+```matlab
+i = 0;
+sum = 0;
+while(i<=999)
+    sum = sum + i;
+    i = i + 1;
+end
+disp(sum);
+```
+
+> **注：我们在进行数值运算的时候，有时必须需要将数值清除掉，不然可能会导致我们的计算的结果有问题；**
+
+> **注：当我们要看一个脚本or函数的用时，我们可以使用tic  toc，来看用时，在运算开始前写上tic，运算结束后写上toc；**
+>
+> **如下：**
+>
+> ```matlab
+> tic;
+> i = 0;
+> sum = 0;
+> while(i<=999)
+>     sum = sum + i;
+>     i = i + 1;
+> end
+> disp(sum);
+> toc;
+> ```
 
 
 
@@ -679,18 +759,7 @@ end
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+## **三、变量与档案存取：**
 
 
 
