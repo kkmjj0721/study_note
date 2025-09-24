@@ -6,7 +6,7 @@
 
 **2.结构化程式与自定义函数**
 
-
+**3.变量与档案存取**
 
 
 
@@ -67,6 +67,8 @@ str = 'I''m learning MATLAB.';
 disp(str);  % 输出：I'm learning MATLAB.
 length(str);  % 统计字符个数，结果为 20（逐个字符：I'm learning MATLAB.）
 ```
+
+> **注：我们可以像c语言那样，使用一个数据类型（type）加上括号，里面为变量，可以将其的type进行改变；**
 
 
 
@@ -761,19 +763,44 @@ disp(sum);
 
 ## **三、变量与档案存取：**
 
+​		在前面的数据类型我们已经讲了大部分的的东西，这里仅做一下附加讲解：
 
+如我们有多个字符串or字符，我们想让其连接在一起，我们可以使用`[]`进行连接，具体可看上面的**数组连接**；
 
+### **1、Logical Operations and Assignments（逻辑运算和赋值）：**
 
+```matlab
+str = 'aardvark';
+'a' == str
+```
 
+其会比较a与str中每个字符；若一样返回1，不一样返回0；
 
+Try this：
 
+```matlab
+str(str == 'a') = 'Z'
+```
 
+**Exercise：**
 
+​		Write a script that inverts any given string（编写一个反转任何给定字符串的脚本），如下：
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509241333634.png)
 
+其实这里有内置函数可以直接实现该功能，但我们为了更好的理解，简单写一下这个程序：
 
+```matlab
+function s2 = inversion(s1)
 
+i = size(s1);
+for j = i(1):i(2)
+    temp(j) = s1(i(2) - j + 1);
+end
+s2 = temp;
+```
 
+> **注：数组索引必须为正值或逻辑值**
 
 
 
@@ -781,18 +808,38 @@ disp(sum);
 
 
 
+### **2、structure：**
 
+- A method of storing heterogneous data（一种存储异构数据的方法）；
+- Structures contain arrays called fields（结构体包含称为字段的数组）；
 
+示例：Student assignment grades（学生作业成绩）：
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509241447873.png)
 
+#### **2.1、Structure Function：**
 
+- cell2struct()：Convert cell array to structure array（）
+- fieldnames()：Field names of structure, or public fields of object（可以查找结构体的所有字段名称）
+- getfield()：Field of structure array
+- isfield()：Determine whether input is structure array field（确定输入是否为结构数组字段）
+- isstruct()：Determine whether input is structure array（确定输入是否为结构数组）
+- orderfields()：Order fields of structure array
+- rmfield()：Remove fields from structure（从结构体中移除某一个field（字段））；
+- setfield()：Assign values to structure array field（）
+- struct()：Create structure array（创建结构数组）
+- struct2cell()：Convert structure to cell array
+- structfun()：Apply function to each field of scalar structure
 
 
 
 
 
+#### **2.2、Nesting Structures（结构体嵌套）：**
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509241503676.png)
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509241504692.png)
 
 
 
@@ -800,26 +847,59 @@ disp(sum);
 
 
 
+### **3、Cell Array（单元数组）：**
 
+- Another method of storing heterogeneous data（另一种存储异构数据的办法）
+- Similar to matrix but each entry contains different type of data（类似于矩阵，但每个条目包含不同类型的数据）
+- Declared using { }
 
+​	如下：
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509242220036.png)
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509242221530.png)
 
 
 
+- Each entry in a cell array holds a pointer to a data structure（单元数组中的每个条目都指向一个数据结构的指针）；
+- Different cells of the same cell array can point to different types of data structures（同一单元数组的不同单元可以指向不同类型的数据结构）；
 
+**Exercise：**
 
+​		![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509242229115.png)
 
+代码如下：
 
+```matlab
+>> A(1,1)={'This is the first cell'};
+>> A(1,2)={[5+j*6 4+j*5]};
+>> A(2,1)={[1 2 3;4 5 6;7 8 9]};
+>> A(2,2)={["Tim" "Chirs"]}
+```
 
+> **注：在matlab中字符串即字符数组，使用单引号`''`，字符串数组为多个字符数组，使用双引号定义元素，使用[]连接成数组；**
 
+#### **3.1、Accessing Cell Array：**
 
+- Curly braces, {}, are used to access the “contentof” cell arrays（使用花括号来访问单元数组的内容）
 
 
 
 
 
+#### **3.2、Cell Array Function；**
 
+- cell()：Create cell array
+- cell2mat()：Convert cell array to numeric array
+- cell2struct()：Convert cell array to structure array（将单元数组转成结构体）
+- celldisp()：Cell array contents
+- cellfun()：Apply function to each cell in cell array
+- cellplot()：Graphically display structure of cell array
+- cellstr()：Create cell array of strings from character array
+- iscell()：Determine whether input is cell array
+- mat2cell()：Convert array to cell array with different sized cells（将数组转换为具有不同大小单元格的单元数组）
+- num2cell()：Convert array to cell array with consistently sized cells（将数组转换为具有固定大小单元格的单元数组）
+- struct2cell()：struct2cell Convert structure to cell array
 
 
 
@@ -827,18 +907,27 @@ disp(sum);
 
 
 
+### **4、Multidimensional Array：**
 
+#### **4.1、cat( ):**
 
+​		该指令可以帮助我们将两个array进行连接起来；
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509242309413.png)
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509242310381.png)
 
 
 
 
 
+#### **4.2、reshape( )：**
 
+​		该函数可以将一个row为r1、column为c1的matrix变成row为r2、column为c2的matrix，前提为`r1*c1 = r2*c2`；
 
+如图中示例，其将一个2乘2的matrix变成1乘4的matrix；
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509242316253.png)
 
 
 
@@ -846,7 +935,22 @@ disp(sum);
 
 
 
+### **5、Checking Variable And Variable Status：**
 
+- isinteger：Determine if input is integer array
+- islogical：Determine if input is logical array
+- isnan：Detect an element that isnot a number (NaN)
+- isnumeric：Determine if input is numeric array
+- isprime：Detect prime elements of array
+- isreal：Determine if all array elements are real numbers
+- iscell：Determine if input is cell array
+- ischar：Determine if input is character array
+- isempty：Determine if input is empty array
+- isequal：Determine if arrays are numerically equa
+- isfloat：Determine if input is floating-point array
+- isglobal：Determine if input is global variable
+- ishandle：Detect valid graphics object handles
+- isinf：Detect infinite elements of array
 
 
 
@@ -854,12 +958,7 @@ disp(sum);
 
 
 
-
-
-
-
-
-
+### **6、File Access：**
 
 
 
