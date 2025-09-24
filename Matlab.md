@@ -958,35 +958,60 @@ s2 = temp;
 
 
 
-### **6、File Access：**
+### **6、File Access（文件访问）：**
+
+#### **6.1、Supported file formats：**
+
+| File Content（文件内容） | Extension（扩展名） | Description（描述）     | Import Function（导入功能） | Export Function（导出功能） |
+| ------------------------ | ------------------- | ----------------------- | --------------------------- | --------------------------- |
+| MATLAB formatted data    | MAT                 | Saved MATLAB workspace  | load                        | save                        |
+| Text                     |                     | space delimited numbers | load                        | save                        |
+| Spreadsheet              | XLS,SLSX            |                         | xlsread                     | xlswrite                    |
 
 
 
 
 
+**6.2、save() and load()：**
+
+- Save（all）workspace data to a file：
+
+
+```matlab
+clear;a=magic(4);
+save mydatal.mat
+save mydata2.mat-asciiv
+```
+
+第二行代码与第三行代码的唯一区别就是使用文本阅读器打开是否能看到正确的内容
+
+
+
+- Load data stored in a file：
+
+```matlab
+load('mydatal.mat')
+load('mydata2.mat''-ascii')
+```
+
+
+
+思考：How does one save a specific variable?
 
 
 
 
 
+#### **6.2、xlsread( ) and xlswrite( )：**
+
+- xlsread( )：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509242354701.png)
+
+- xlswrite( )：
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509250005007.png)
 
 
 
