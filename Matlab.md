@@ -8,7 +8,7 @@
 
 **3.变量与档案存取**
 
-
+**4.绘图**
 
 
 
@@ -759,6 +759,51 @@ disp(sum);
 
 
 
+### **3、特殊类型函数：**
+
+#### **3.1、子函数：**
+
+​		一个M文件可以有多个函数，第一个为主函数，其他为子函数。在保存文件时文件名一般和主函数相同，外部程序只能对主函数进行调用；
+
+```matlab
+function d=func(a,b,c)		%主函数
+d=subfunc(a,b)+c;
+function c=subfunc(a,b)		%子函数
+c=a*b;
+```
+
+
+
+
+
+#### **3.2、内联函数：**
+
+​		字符串形式的函数表达式可以通过`inline`函数转化成内联函数；
+
+```matlab
+a='(x+y)^2';
+f=inline(a)
+f(3,4)
+```
+
+
+
+
+
+#### **3.3、匿名函数：**
+
+```matlab
+函数句柄变量=@(匿名函数输入参数)匿名函数表达式
+>> sqr=@(x) x.^2     %定义匿名函数
+>> sqr([1,2,3])      %调用匿名函数
+```
+
+
+
+
+
+
+
 
 
 ## **三、变量与档案存取：**
@@ -1013,6 +1058,132 @@ load('mydata2.mat''-ascii')
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509250005007.png)
 
+```matlab
+xlswrite(filename, data)               % 写入数据到默认工作表（Sheet1）的 A1 单元格开始
+xlswrite(filename, data, sheet)        % 写入数据到指定工作表（sheet 可为名称或索引）
+xlswrite(filename, data, sheet, range) % 写入数据到指定工作表的指定起始位置（如 'B2'）
+```
+
+- **`filename`**：字符串，Excel 文件名（含路径，如 `'data.xlsx'` 或 `'C:\test\result.xls'`）；
+- **`data`**：待写入的数据，支持**数值矩阵、单元格数组（cell）、字符串数组**等；
+- **`sheet`**：工作表名称（字符串，如 `'Sheet2'`）或索引（整数，如 `2` 表示第 2 个工作表）；
+- **`range`**：起始单元格（字符串，如 `'A1'` 表示从 A1 开始写入，默认从 `'A1'` 开始）。
+
+
+
+Getting Text in Excel Spreadsheet：
+
+- Getting both the text and numbers（获取文本和数字）：
+
+```matlab
+Score Headerl=xlsread('04Score.xlsx'）
+```
+
+
+
+
+
+### **7、Low-level File I/O Functions：**
+
+- fopen()：Open file, or obtain information about open files（打开文件，或获取有关已打开文件的信息）；
+- fclose()：Close one or all open files（关闭一个或所有打开的文件）；
+- fscanf()：Read data from text file（从文本文件读取数据）；
+- fprintf()：Write data to text file（将数据写入文本文件）；
+- feof()：Test for end-of-file（检验是否到文件结尾）；
+- ferror()：查询文件的错误状态
+
+
+
+Open and close a file：
+
+```matlab
+fid = fopen('[filename]','[permission]');
+fclose(fid);		% 关闭文件
+```
+
+
+
+```matlab
+fid = fopen(filename)                  % 以默认模式（只读文本）打开文件
+fid = fopen(filename, permission)      % 以指定权限（permission）打开文件
+fid = fopen(filename, permission, format)  % 指定文件格式（二进制/文本）
+fid = fopen(filename, permission, format, encoding)  % 指定编码格式（如UTF-8）
+```
+
+**`filename`：文件名（必选）**
+
+- 字符串类型，指定目标文件的路径（绝对路径或相对路径）。
+  - 相对路径：相对于当前工作目录（可通过 `pwd` 查看），如 `'data.txt'`；
+  - 绝对路径：完整路径，如 `'C:\project\results.csv'`（Windows）或 `'/home/user/data.txt'`（Linux/Mac）。
+- 注意：MATLAB 中路径分隔符推荐用**正斜杠 `/`**（跨平台兼容），反斜杠 `\` 仅在 Windows 有效。
+
+**`permission`：打开权限（核心参数，可选，默认 `'r'`）**
+
+控制文件的 “读写方式” 和 “存在性处理”，常用权限如下：
+
+| 权限字符 | 含义（文本模式，默认）                           | 适用场景                   |
+| -------- | ------------------------------------------------ | -------------------------- |
+| `'r'`    | 只读（默认），文件必须存在，否则打开失败         | 读取已有文件               |
+| `'w'`    | 只写，若文件不存在则创建；若存在则清空内容       | 新建文件或覆盖已有文件     |
+| `'a'`    | 追加写入，若文件不存在则创建；若存在则在末尾添加 | 向已有文件添加内容         |
+| `'r+'`   | 读写，文件必须存在，可修改内容但不创建新文件     | 读取并修改已有文件         |
+| `'w+'`   | 读写，若文件不存在则创建；若存在则清空内容       | 新建可读写文件或覆盖后读写 |
+| `'a+'`   | 读写，若文件不存在则创建；若存在则在末尾添加     | 读取文件并在末尾追加内容   |
+
+**二进制模式**：在权限后加 `'b'`（如 `'rb'`、`'wb'`），用于非文本文件（如图片、二进制数据），避免系统自动转换换行符（Windows 中 `\n` 与 `\r\n` 的转换）。
+
+**`format`：文件格式（可选，默认 `'native'`）**
+
+指定文件的字节顺序（endianness），主要用于跨平台读写二进制文件：
+
+- `'native'`：使用当前系统的字节顺序（默认，推荐）；
+- `'little-endian'`：小端字节序（如 x86 架构）；
+- `'big-endian'`：大端字节序（如部分嵌入式系统）。
+
+**`encoding`：编码格式（可选，默认系统编码）**
+
+指定文本文件的编码（如 UTF-8、GBK），解决中文等非英文字符乱码问题：
+
+- `'UTF-8'`：通用编码，支持多语言；
+- `'GBK'`：中文编码（Windows 常用）；
+- `'ISO-8859-1'`：西方字符编码。
+
+
+
+`feof` 的作用是检查当前文件指针位置是否已到达文件末尾，语法极为简洁：
+
+```matlab
+status = feof(fid)
+```
+
+- **参数 `fid`**：文件标识符（file identifier），即 `fopen` 函数返回的正整数（必须是已成功打开的文件）。
+
+- 返回值 `status`
+
+  ：整数，指示文件指针状态：
+
+  - `status = 0`：文件指针**未到达末尾**，仍有数据可读取；
+  - `status = 1`：文件指针**已到达末尾**，无更多数据可读取；
+  - `status = -1`：操作失败（如 `fid` 无效、文件未打开等），可通过 `ferror(fid)` 查看具体错误原因。
+
+
+
+**Exercise：**
+
+​		Writing Sine Values into A File；
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509251900499.png)
+
+```matlab
+x = 0:pi/10:pi;
+y = sin(x);
+fid = fopen('text.txt','w+');
+for i=1:11
+fprintf(fid,'%5.3f %8.4f\n',x(i),y(i));
+end
+fclose(fid);
+type text.txt
+```
 
 
 
@@ -1022,20 +1193,7 @@ load('mydata2.mat''-ascii')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## **四、绘图：**
 
 
 
