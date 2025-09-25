@@ -1195,6 +1195,95 @@ type text.txt
 
 ## **四、绘图：**
 
+### **1、plot( ):**
+
+- plot（x，y）plots each vector pairs（x，y）
+- plot(y) plots each vector pairs (x,y)，where x=[1…n]，n = length(y)
+- Example：
+
+```matlab
+plot(cos(0:pi/100:2*pi))
+plot(0:pi/100:2*pi,cos(0:pi/100:2*pi))
+```
+
+在使用`plot`的时候，他会把旧的图形给删掉，生成新的图形；
+
+
+
+
+
+
+
+### **2、hold on/off：**
+
+​		Use hold on to have both plots in one figure（使用hold on命令在同一个图形中绘制两个图。）；
+
+```matlab
+hold on
+plot(cos(0:pi/20:2*pi));
+plot(sin(0:pi/20:2*pi));
+hold off
+```
+
+
+
+
+
+
+
+### **3、Plot Style：**
+
+​		`plot(x, y, 'str')`使用在 str 中定义的格式绘制每个向量对(x,y)(检查线条样式)；
+
+| Data markers（数据标记） | Line types（线条类型）（用于连接数据标记和线条类型） | Colors（颜色）         |
+| ------------------------ | ---------------------------------------------------- | ---------------------- |
+| Dot（.）                 | Solid line  （实线 - ）                              | Black（k）             |
+| Asterisk(*)              | Dashed line（虚线 - - ）                             | Blue（b）              |
+| Cross(x)                 | Dash-dotted line（虚线 - . ）                        | Cyan（青色）（c）      |
+| Circle (O )              | Dotted line（虚线  ：）                              | Green（g）             |
+| Plus sign (+)            |                                                      | Magenta（洋红色）（m） |
+| Square(口)               |                                                      | Red（r）               |
+| Diamond(o)               |                                                      | White（w）             |
+| Five-pointed star(☆)     |                                                      | Yellow（y）            |
+| Triangle (down ▽)        |                                                      |                        |
+| Triangle (up Δ)          |                                                      |                        |
+| Triangle (left ▷)        |                                                      |                        |
+| Triangle (right ◁)       |                                                      |                        |
+| hexagram (H)             |                                                      |                        |
+
+例：
+
+```matlab
+plot(sin(0:pi/50:2*pi),'o--r')
+```
+
+
+
+
+
+
+
+### **4、legend( )：**
+
+- Add legend to graph（为图表添加图例）：
+
+```matlab
+legend('L1',…)
+```
+
+- Position adjustment（位置调整）；
+
+例：
+
+```matlab
+x = 0 : 0.5 : 4*pi;
+y = sin(x);
+h = cos(x);
+w = 1./(1+exp(-x));
+g = (1 / (4*pi)^0.5) .* exp((-1.*(x-2*pi).^2)./(2*2^2));
+plot(x,y,'bd-', x,h,'gp:', x,w,'ro-', x,g,'c^-');
+legend('sin(x)', 'cos(x)', 'sigmoid', 'Gauss function');
+```
 
 
 
@@ -1204,42 +1293,29 @@ type text.txt
 
 
 
+### **5、title( ) and ?label( )：**
 
+用于添加标题与标签，可看下面两幅图的区别：
 
+- title()
+- xlabel()
+- ylabel()
+- zlabel()
 
+```matlab
+x = 0:0.1:2*pi;
+y1 = sin(x);
+y2 = exp(-x);
+plot(x,y1,'--*',x,y2,':o');
+xlabel('t = 0 to 2\pi');
+ylabel('values of sin(t) and e^{-x}');
+title('Function Plots of sin(t) and e^{-x}');
+legend('sin(t)','e^{-x}');
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509260146897.png)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509260147921.png)
 
 
 
