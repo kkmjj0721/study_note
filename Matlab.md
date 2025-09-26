@@ -1250,6 +1250,7 @@ hold off
 | Triangle (left ▷)        |                                                      |                        |
 | Triangle (right ◁)       |                                                      |                        |
 | hexagram (H)             |                                                      |                        |
+| diamond（d）（菱形）     |                                                      |                        |
 
 例：
 
@@ -1585,6 +1586,11 @@ get(h);
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509261935038.png)
 
+```matlab
+get(gca);
+get(gcf);
+```
+
 
 
 - **Where do we modify the limits of the x-axis？**
@@ -1603,6 +1609,137 @@ set(handles, propertyName, propertyValue)                  % 为多个对象（�
 - **`propertyValue`**：属性值（类型取决于属性，如颜色可以是 `'red'` 或 `[1,0,0]`）；
 - **`struct`**：包含属性名 - 值对的结构体（字段为属性名，值为属性值）；
 - **`handles`**：多个对象的句柄组成的向量（如 `[h1, h2, h3]`），用于批量修改多个对象的同一属性。
+
+**常见对象与核心属性**
+
+不同类型的图形对象有不同的属性，以下是常用对象及其核心属性：
+
+| 对象类型           | 句柄获取方式      | 核心属性（示例）                                             |
+| ------------------ | ----------------- | ------------------------------------------------------------ |
+| 图形窗口（figure） | `gcf` 或 `figure` | `'Color'`（背景色）、`'Position'`（位置和大小）、`'Name'`（窗口标题）、`'Visible'`（可见性） |
+| 坐标轴（axes）     | `gca` 或 `axes`   | `'XLim'`/`'YLim'`（轴范围）、`'XLabel'`/`'YLabel'`（轴标签）、`'FontSize'`（字体大小） |
+| 曲线（line）       | `plot` 返回值     | `'Color'`（颜色）、`'LineWidth'`（线宽）、`'LineStyle'`（线型）、`'Marker'`（数据点标记） |
+| 文本（text）       | `text` 返回值     | `'String'`（文本内容）、`'FontName'`（字体）、`'Color'`（文本颜色）、`'Rotation'`（旋转角度） |
+
+
+
+接着我们上面的问题，我们对x轴进行修改：
+
+```matlab
+set(gca,'Xlim',[0,2*pi]);
+set(gca,'Ylim',[-1.2,1.2]);
+```
+
+**Alternative：**
+
+```matlab
+xlim([0,2*pi]);
+ylim([-1.2,1.2]);
+```
+
+
+
+- **Setting Font and Tick of Axes：**
+
+```matlab
+set(gca,'Fontsize',25);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509262102209.png)
+
+```matlab
+set(gca,'XTick',0:pi/2:2*pi);
+set(gca,'XTicklabel',0:90:360);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509262058672.png)
+
+`xtick` 是**x 轴刻度位置**的属性，用于控制 x 轴上刻度线（tick marks）和刻度标签（tick labels）的具体数值位置。它是坐标轴（`axes` 对象）的核心属性之一，直接决定了 x 轴上哪些位置会显示刻度；
+
+- **刻度线（tick marks）**：x 轴上垂直于轴线的小短线，用于标记数据的参考点；
+- **刻度标签（tick labels）**：刻度线旁边的文本（通常是数值），说明该刻度对应的具体值；
+- **`xtick` 属性**：存储这些刻度线所在的**数值位置**（以 x 轴数据坐标为单位），是一个向量。
+
+
+
+```matlab
+set(gca,'FontName','Times New Roman');
+set(gca,'XTickLabel',{'0','\pi/2','\pi','3\pi/2','2\pi'});
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509262126212.png)
+
+
+
+- **Line Specification：**
+  - Line style and width：
+
+```matlab
+set(h,'LineStyle','-.','LineWidth',7.0,'color','g');		%改变线条样式，线宽，线的颜色
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509262135011.png)
+
+同时，我们可以在生成图形的时候直接对线条操作；
+
+
+
+- **Marker Specification（标记规格）：**
+
+在我们绘图的时候，实际上是很多个点来构成的，每个点上都有一个Marker，我们可以改变Marker的颜色，大小和形状等属性
+
+示例：
+
+```matlab
+x = rand(20,1);						% 生成20行1列的[0，1]随机分布的矩阵
+set(gca,'FontSize',18);				
+plot(x,'-md','LineWidth',2,'MarkerEdgeColor','K','MarkerFaceColor','g','MarkerSize',10);
+xlim([1,20]);
+```
+
+**MarkerEdgeColor**：标记的边缘颜色
+
+**MarkerFaceColor**：标记的内部填充颜色
+
+**MarkerSize**：标记的大小
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509262211436.png)
+
+
+
+**Exercise:**
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509262212393.png)
+
+```matlab
+t = linspace(1,2);
+f = t.^2;
+g = sin(2*pi*t);
+hold on
+h1 = plot(t,f,'-b');
+h2 = plot(t,g,'r.');
+hold off
+% 改变图像属性
+set(gca,'XLim',[1,2],'YTick',-1:1:4,'Fontsize',	18);
+set(h1,'LineWidth',4,'color','k');
+set(h2,'MarkerSize',12,'MarkerEdgeColor',[0.6, 0, 0.6],'MarkerFaceColor',[0.6, 0, 0.6]);
+% 添加标题和标签
+title('Mini Assignment #1');
+ylabel('f(t)');
+xlabel('Time(ms)');
+% 添加图例
+legend('f=t^{2}','g=sin(2πt)','Location','best');
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509262251154.png)
+
+
+
+
+
+
+
+
 
 
 
