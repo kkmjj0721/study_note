@@ -8,9 +8,9 @@
 
 **3.变量与档案存取**
 
-**4.绘图**
+**4.初级绘图**
 
-
+**5.进阶绘图**
 
 
 
@@ -1193,7 +1193,7 @@ type text.txt
 
 
 
-## **四、绘图：**
+## **四、初级绘图：**
 
 ### **1、plot( ):**
 
@@ -1732,6 +1732,392 @@ legend('f=t^{2}','g=sin(2πt)','Location','best');
 ```
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509262251154.png)
+
+
+
+
+
+
+
+### **8、Multiple Figures：**
+
+- Create a figure window by calling figure（通过调用figures创建图形窗口）：
+
+例：
+
+```matlab
+x = -10:0.1:10;
+y1 = x.^2 - 8;
+y2 = exp(x);
+figure, plot(x,y1);
+figure, plot(x,y2);
+```
+
+- Be careful when using the gcf handle wherethere exists multiple figures（gcf指向的是当前的图像，不会指向之前的，所以如果需要）；
+
+
+
+
+
+
+
+### **9、Figure Position and Size（图形位置和大小）：**
+
+​		我们在呼叫`figure`的时候，可以设置其位置，大小等；
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270008351.png)
+
+```matlab
+figure('Position',[left,bottom,width，height]);
+```
+
+
+
+
+
+
+
+### **10、Several Plots in One Figure（多个图在一个图形中）：**
+
+- Several small plots “in a figure”
+
+```matlab
+subplot(m,n,1);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270014009.png)
+
+示例：
+
+```matlab
+t = 0:0.1:2*pi;
+x = 3*cos(t);
+y = sin(t);
+subplot(2,2,1);				plot(x,y);				axis normal
+subplot(2,2,2);				plot(x,y);				axis square
+subplot(2,2,3);				plot(x,y);				axis equal
+subplot(2,2,4);				plot(x,y);				axis equal tight
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270021458.png)
+
+
+
+
+
+
+
+### **11、Control of Grid, Box, and Axis（控制网格、框和轴）：**
+
+- grid on/off：Make the grid visible or invisible（使网格可见或不可见）
+- box on/off：Make the box visible or invisible（使框可见或不可见）
+- axis on/off：Make the axes visible or invisible（使坐标轴可见或不可见）
+- axis normal：Automaticaliy adiust the aspect ratio of the axesand the relative scaling of the data units
+- axis square：Make the current axes region square
+- axis equal：Set the aspect ratio so that the data units are the same in every direction
+- axis equal tight：Set the axis limits to the range of the data
+- axis image：Let the plot box fits tightly around the data
+- axis ij：Place the origin of the coordinate system in the upper left corner
+- axis xy：Place the origin in the lower left corner
+
+**注：我们在使用上面这些函数的时候，只能操作最后一个figure；**
+
+
+
+
+
+
+
+### **12、Saving Figures into Files：**
+
+```matlab
+saveas(gcf,'<filename>','<formattype>');
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270105026.png)
+
+这张图片中提供可选的图片类型；
+
+- To control size and resoluion, use print instead；（要控制大小和分辨率，请使用打印:）
+
+
+
+
+
+
+
+
+
+## **五、进阶绘图：**
+
+图形的作用（不同地方用不同的图片来做讲解）：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270113550.png)
+
+### **1、Special Plots：**
+
+- loglog：Graph with logarithmic scales for both axes（）
+- semilogx：Graph with a logarithmic scale for the x-axis and a linear scale for the y-axis
+- semilogy：Graph with a logarithmic scale for the y-axis and a linear scale for the x-axis
+- plotyy：Graph with y-tick labels on the left and right side
+- hist：Histogram plot
+- bar：Bar graph
+- pie：Pie chart
+- polar：Polar coordinate plot
+
+#### **1.1、Logarithm Plots：**
+
+​		![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270129700.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
