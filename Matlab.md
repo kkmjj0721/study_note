@@ -1273,6 +1273,40 @@ legend('L1',…)
 
 - Position adjustment（位置调整）；
 
+```matlab
+legend(labels)                  % 为图形中的对象依次添加标签（labels为字符串数组）
+legend(labels, Name, Value)     % 添加标签并设置图例属性（如位置、字体等）
+legend('off')                   % 关闭当前图例
+legend(ax, ...)                 % 为指定坐标轴（ax）添加图例（而非当前坐标轴）
+h = legend(...)                 % 返回图例句柄（用于后续修改属性）
+```
+
+- **`labels`**：字符串数组，包含每个图形对象的标签（如 `["曲线1", "曲线2"]`），标签数量需与图形中的对象数量一致（否则会警告）；
+- **`ax`**：坐标轴句柄，指定要添加图例的坐标轴（适用于多子图 `subplot` 场景）；
+- **`Name, Value`**：属性 - 值对，用于自定义图例外观（如位置、字体、边框等）。
+
+标签参数（`labels`）：
+
+`labels` 是图例的核心内容，需与图形中的对象**按顺序一一对应**。例如：
+
+- 若图形中有 3 条曲线，`labels` 需包含 3 个字符串，分别对应第 1、2、3 条曲线；
+- 若未指定 `labels`，MATLAB 会尝试使用对象的 `'DisplayName'` 属性作为标签（可通过 `plot(x,y,'DisplayName','曲线1')` 预先设置）。
+
+常用属性（`Name, Value` 对）：
+
+通过属性设置可灵活控制图例的位置、外观和行为，常用属性如下：
+
+| 属性名          | 功能描述                                    | 示例值                                                       |
+| --------------- | ------------------------------------------- | ------------------------------------------------------------ |
+| `'Location'`    | 图例位置（基于图形或坐标轴）                | `'best'`（默认，自动选最佳位置）、`'north'`（顶部）、`'southeast'`（右下角）、`'outside'`（坐标轴外部） |
+| `'FontSize'`    | 标签字体大小（磅）                          | `12`、`14`                                                   |
+| `'FontName'`    | 标签字体（支持中文需指定中文字体）          | `'SimHei'`（黑体）、`'Times New Roman'`                      |
+| `'TextColor'`   | 标签文字颜色                                | `'red'`、`[0.2, 0.5, 0.8]`（RGB）                            |
+| `'EdgeColor'`   | 图例边框颜色                                | `'black'`、`'none'`（无边框）                                |
+| `'FaceColor'`   | 图例背景颜色                                | `'white'`（默认）、`[0.9, 0.9, 0.9]`（浅灰）                 |
+| `'NumColumns'`  | 图例标签的列数（默认 1 列，多列可节省空间） | `2`、`3`                                                     |
+| `'Orientation'` | 标签排列方向（仅单列 / 单行时有效）         | `'vertical'`（垂直，默认）、`'horizontal'`（水平）           |
+
 例：
 
 ```matlab
@@ -1284,8 +1318,6 @@ g = (1 / (4*pi)^0.5) .* exp((-1.*(x-2*pi).^2)./(2*2^2));
 plot(x,y,'bd-', x,h,'gp:', x,w,'ro-', x,g,'c^-');
 legend('sin(x)', 'cos(x)', 'sigmoid', 'Gauss function');
 ```
-
-
 
 
 
@@ -1323,43 +1355,137 @@ legend('sin(t)','e^{-x}');
 
 
 
+### **6、text( ) and annotation( )：**
 
+​		`text`是在图形中添加文本标注，用于在指定坐标位置添加自定义文本（如数据点说明、公式、注释等），`annotation`用于在整个图形窗口中添加注释（如箭头、矩形、文本框等）；
 
+- Text with mathematical expreession using LaTex（使用LaTeX进行数学表达的文本，如积分符号等）；
 
 
+```matlab
+text(x, y, 'string', Name, Value)     % 添加文本并设置属性（如颜色、字体大小等）
+```
 
+- **`x, y`（或 `x, y, z`）**：文本放置的坐标（数值或向量），对应当前坐标轴的刻度（2D 图形用 `x,y`，3D 图形用 `x,y,z`）；
+- **`'string'`**：要显示的文本（字符串或字符串数组）；
+- **`Name, Value`**：可选的属性 - 值对，用于自定义文本外观（如颜色、字体、对齐方式等）。
 
+**常用属性（`Name, Value` 对）**
 
+通过属性设置自定义文本外观，常用属性如下：
 
+| 属性名                  | 功能描述                        | 示例值                                                       |
+| ----------------------- | ------------------------------- | ------------------------------------------------------------ |
+| `'Color'`               | 文本颜色                        | `'red'`、`[0.5, 0.8, 0.2]`（RGB）                            |
+| `'FontSize'`            | 字体大小（磅）                  | `12`、`14`                                                   |
+| `'FontName'`            | 字体类型                        | `'SimHei'`（黑体，支持中文）、`'Times New Roman'`            |
+| `'HorizontalAlignment'` | 水平对齐方式（相对于 `x` 坐标） | `'left'`（左对齐，默认）、`'center'`（居中）、`'right'`（右对齐） |
+| `'VerticalAlignment'`   | 垂直对齐方式（相对于 `y` 坐标） | `'bottom'`（底部对齐）、`'middle'`（居中）、`'top'`（顶部对齐，默认） |
+| `'Interpreter'`         | 文本解释器（控制特殊字符解析）  | `'none'`（不解析）、`'tex'`（默认，解析希腊字母 / 上下标）、`'latex'`（解析 LaTeX 公式） |
 
 
 
+```matlab
+annotation(fig, type, pos)               % 给指定图形fig添加type类型的注释，位置由pos定义
+annotation(type, pos)                    % 给当前图形（gcf）添加注释
+annotation(..., Name, Value)             % 添加注释并设置属性（如颜色、线宽等）
+```
 
+- **`fig`**：图形句柄（可选），指定要添加注释的图形窗口（默认是当前图形 `gcf`）；
+- **`type`**：注释类型（字符串），常用类型包括 `'arrow'`（箭头）、`'rectangle'`（矩形）、`'ellipse'`（椭圆）、`'textbox'`（文本框）、`'line'`（直线）等；
+- **`pos`**：位置向量，定义注释在图形中的位置和大小，基于**归一化图形坐标**（左下角为 `(0,0)`，右上角为 `(1,1)`）；
+- **`Name, Value`**：属性 - 值对，用于自定义注释外观（如颜色、线宽、填充等）。
 
+**常用属性（`Name, Value` 对）**
 
+不同注释类型支持的属性略有差异，以下是通用常用属性：
 
+| 属性名                  | 功能描述                                                     | 适用类型               |
+| ----------------------- | ------------------------------------------------------------ | ---------------------- |
+| `'Color'`/`'EdgeColor'` | 线条 / 边框颜色（`'red'`、RGB 值如 `[1,0,0]`）               | 所有类型（线条、边框） |
+| `'LineWidth'`           | 线条 / 边框宽度（磅）                                        | 箭头、直线、矩形、椭圆 |
+| `'LineStyle'`           | 线条样式（`'-'` 实线、`'--'` 虚线、`':'` 点线、`'-.'` 点划线） | 箭头、直线、矩形、椭圆 |
+| `'FaceColor'`           | 填充颜色（用于矩形、椭圆、文本框）                           | 矩形、椭圆、文本框     |
+| `'FaceAlpha'`           | 填充透明度（0~1，0 为完全透明，1 为不透明）                  | 矩形、椭圆、文本框     |
+| `'String'`              | 文本内容（字符串或字符串数组）                               | 文本框                 |
+| `'FontSize'`            | 字体大小（磅）                                               | 文本框                 |
 
 
 
+```matlab
+line(x, y)                  % 在 2D 坐标系中绘制直线，x/y 为坐标点向量
+line(x, y, z)               % 在 3D 坐标系中绘制直线，x/y/z 为坐标点向量
+line(x, y, Name, Value)     % 2D 绘图并设置线条属性（如颜色、线宽）
+line(x, y, z, Name, Value)  % 3D 绘图并设置线条属性
+h = line(...)               % 返回线条句柄（可用于后续修改属性）
+```
 
+常用属性（`Name, Value` 对）：
 
+`line` 支持通过属性 - 值对自定义线条外观，常用属性如下（与 `plot` 的属性兼容）：
 
+| 属性名              | 功能描述                                           | 示例值                                                       |
+| ------------------- | -------------------------------------------------- | ------------------------------------------------------------ |
+| `'Color'`           | 线条颜色（支持预定义颜色名、RGB 值或十六进制代码） | `'red'`、`[0.5,0.8,0.2]`、`'#FF0000'`                        |
+| `'LineWidth'`       | 线条宽度（单位：磅，默认 0.5）                     | `2`、`1.5`                                                   |
+| `'LineStyle'`       | 线型（实线、虚线等）                               | `'-'`（实线，默认）、`'--'`（虚线）、`':'`（点线）、`'-.'`（点划线） |
+| `'Marker'`          | 数据点标记（如圆圈、方块等）                       | `'o'`（圆圈）、`'s'`（方块）、`'*'`（星号）、`'none'`（无标记，默认） |
+| `'MarkerSize'`      | 标记大小（单位：磅）                               | `8`、`10`                                                    |
+| `'MarkerEdgeColor'` | 标记边缘颜色                                       | `'blue'`、`[0,0,1]`                                          |
+| `'MarkerFaceColor'` | 标记填充颜色                                       | `'yellow'`、`[1,1,0]`                                        |
 
 
 
+例：
 
+```matlab
+x = linspace(0,3);						%生成一个从 0 到 3 的等间距向量。
+y = x.^2.*sin(x);						%计算y
+plot(x,y);								%绘图
+line([2,2],[0,2^2*sin(2)]);				
+str = '$$ \int_{0}^{2} x^2\sin(x) dx $$';
+text(0.25,2.5,str,'Interpreter','latex');
+annotation('arrow','x',[0.32,0.5],'Y',[0.6,0.4]);		%注意，这里使用的是归一化的坐标
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509260233770.png)
 
 
 
+**Exercise：**
 
+- Plot ʃ as a black line and g as a series of red circles for the range t = 1 to 2 in one figure（在同一个图中，将f作为黑色线条绘制，并将g作为一系列红色圆圈绘制，范围为t从1到2。）；
 
+$$
+f = t^2
+$$
 
+$$
+g = sin(2πt)
+$$
 
+- Label each axis, and add title and legend（标记每个轴，并添加标题和图例）；
 
 
+例：
 
+```matlab
+t = linspace(1,2);
+f = t.^2;
+g = sin(2*pi*t);
+hold on
+plot(t,f,'-b');
+plot(t,g,'rO');
+hold off
+% 添加标题和标签
+title('Mini Assignment #1');
+ylabel('f(t)');
+xlabel('Time(ms)');
+%添加图例
+legend('f=t^{2}','g=sin(2πt)','Location','best');
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509261153546.png)
 
 
 
@@ -1367,49 +1493,116 @@ legend('sin(t)','e^{-x}');
 
 
 
+### **7、Figure Adjustment（图形调整）：**
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509261923246.png)
 
+- Several properties：
+  - Font（字体）
+  - Font size（字体大小）
+  - Line width（线宽）
+  - Axis limit（轴限）
+  - Tick position（刻度位置）
+  - Tick label（刻度标签）
 
+#### **7.1、Graphical Objects（图形对象）：**
 
+- A figure is composed of many objects
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509261234562.png)
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509261248628.png)
 
+我们以下代码产生的图像为例：
 
+```matlab
+x = linspace(0,2*pi,1000);
+y = sin(x);
+plot(x,y);
+set(gcf,'Color',[1 1 1]);
+```
 
 
 
 
 
+#### **7.2、Modifying Properties of An Object（修改对象属性）：**
 
+- Strategy：
+  1. ldentify the “handle” of an object（获取句柄（id？））；
+  2. Fetch or modify the object's properties（获取或修改对象的属性）；			
 
+- For example, to change thelimits of the x-axis:
+  1. Find the handle of the x-axis（找到x的句柄）；
+  2. Modify the limits（修改限制条件）；
 
+##### **7.2.1、Identifying the Handle of An object：**
 
+- Upon creation：
 
+```matlab
+h = plot(x,y);
+```
 
+我们在使用plot创建的时候，其会返回一个一个句柄用于指向我们我们创建的图线（Line）；
 
 
 
+- Utility functions：
+  - gca：Return the handle of the “current” axes（返回坐标轴的句柄）；
+  - gcf：Return the handle of the “current" figure（返回“当前”图形的句柄）；
+  - allchild：Find all children of specified objects（查找指定对象的所有子对象）；
+  - ancestor：Find ancestor of graphics object（寻找其“父”）；
+  - delete：Delete an object；
+  - findall：Find all graphics objects；
 
 
 
+##### **7.2.2、Fetching or Modifying Properties（获取或修改属性）：**
 
+- To fetch properties, use：
 
+```matlab
+get();
+```
 
+- To modify properties, use：
 
+```matlab
+set();
+```
 
+- **Getting Object Properties：**
+  - Getting properties of a graphical object: get()
+  - 例：
 
+```matlab
+x = linspace(0,2*pi,1000);
+y = sin(x);
+h = plot(x,y);
+get(h);
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509261935038.png)
 
 
 
+- **Where do we modify the limits of the x-axis？**
 
+- **Setting Axes Limits：**
 
+```matlab
+set(handle, propertyName, propertyValue)                  % 为单个对象设置单个属性
+set(handle, propertyName1, value1, propertyName2, value2)  % 为单个对象设置多个属性
+set(handle, struct)                                        % 用结构体批量设置多个属性
+set(handles, propertyName, propertyValue)                  % 为多个对象（句柄向量）设置同一属性
+```
 
-
-
-
-
-
+- **`handle`**：图形对象的句柄（唯一标识符），如 `gcf`（当前图形窗口）、`gca`（当前坐标轴）、`line` 函数返回的曲线句柄等；
+- **`propertyName`**：属性名（字符串，如 `'Color'`、`'FontSize'`）；
+- **`propertyValue`**：属性值（类型取决于属性，如颜色可以是 `'red'` 或 `[1,0,0]`）；
+- **`struct`**：包含属性名 - 值对的结构体（字段为属性名，值为属性值）；
+- **`handles`**：多个对象的句柄组成的向量（如 `[h1, h2, h3]`），用于批量修改多个对象的同一属性。
 
 
 
