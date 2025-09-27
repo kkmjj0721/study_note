@@ -475,6 +475,8 @@ A = [1:100]
 
 本项也不做讲解，详细的可在网络上自行查找；
 
+7)、randn()：生成满足正态分布的随机矩阵
+
 
 
 ##### **3.4.7、Some Matrix Related Functions：**
@@ -1856,86 +1858,219 @@ saveas(gcf,'<filename>','<formattype>');
 
 ### **1、Special Plots：**
 
-- loglog：Graph with logarithmic scales for both axes（）
-- semilogx：Graph with a logarithmic scale for the x-axis and a linear scale for the y-axis
-- semilogy：Graph with a logarithmic scale for the y-axis and a linear scale for the x-axis
-- plotyy：Graph with y-tick labels on the left and right side
-- hist：Histogram plot
-- bar：Bar graph
-- pie：Pie chart
-- polar：Polar coordinate plot
+- **loglog**：Graph with logarithmic scales for both axes（**具有对数刻度的双轴图，对x，y均取对数**）
+- **semilogx**：Graph with a logarithmic scale for the x-axis and a linear scale for the y-axis（x轴为对数刻度，y轴为线性刻度的图表，**将x转换成以10为底的对数刻度log10，y保持线性刻度**）
+- **semilogy**：Graph with a logarithmic scale for the y-axis and a linear scale for the x-axis（y轴对数刻度，x轴线性刻度的图表，**将y转换成以10为底的对数刻度log10，x保持线性刻度**）
+- **plotyy**：Graph with y-tick labels on the left and right side（**在左侧和右侧添加y轴刻度标签的图表**）
+- **hist**：Histogram plot（**直方图**）
+- **bar**：Bar graph（**条形图**）
+- **pie**：Pie chart（**饼图**）
+- **polar**：Polar coordinate plot（**极坐标图**）
 
-#### **1.1、Logarithm Plots：**
+#### **1.1、Logarithm Plots（对数图）：**
 
 ​		![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270129700.png)
 
+```matlab
+x = logspace(-1,1,100);	
+y = x.^2;
+% y = x^2
+subplot(2,2,1);			plot(x,y);			title('plot');				% 线性
+subplot(2,2,2);			semilogx(x,y);		title('Semilogx');			% 对x取log
+subplot(2,2,3);			semilogy(x,y);		title('Semilogy');			% 对y取log
+subplot(2,2,4);			loglog(x,y);		title('LogLog');			% 对x，y都取log
+% 加上网格
+set(gca,'XGrid','on','GridLineWidth', 1.2,'GridColor', [0.6, 0.6, 0.6],'GridLineStyle', '-');
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270141533.png)
 
+```matlab
+y = logspace(a, b)             % 生成50个元素：从10^a到10^b，对数间隔
+y = logspace(a, b, n)          % 生成n个元素：从10^a到10^b，对数间隔
+y = logspace(a, b, n, base)    % 生成n个元素：从base^a到base^b，对数间隔（自定义底数，默认10）
+```
 
+- **`a`**：起始指数（标量），向量的第一个元素为 \(10^a\)（或 `base^a`，若指定底数）；
+- **`b`**：终止指数（标量），向量的最后一个元素为 \(10^b\)（或 `base^b`）；
+- **`n`**：可选参数，指定生成的元素数量（默认 50，必须为正整数）；
+- **`base`**：可选参数，指定对数的底数（默认 10，可改为 2、e 等）。
 
 
 
 
 
+#### **1.2、plotyy( )：**
 
+​		在图表的左侧和右侧均添加y轴；目的是为了一个图上显示；两个变数；
 
+例：
 
+```matlab
+x = 0:0.01:20;
+y1 = 200*exp(-0.05*x).*sin(x);
+y2 = 0.8*exp(-0.5*x).*sin(10*x);
+% 生成图像，并且得到句柄
+[Ax,H1,H2] = plotyy(x,y1,x,y2);
+% 设置标题与标签
+set(get(Ax(1),'Ylabel'),'string','Left Y-axis');
+set(get(Ax(2),'Ylabel'),'string','Right Y-axis');
+% or
+% set(Ax(1), 'YLabel', {'Left Y-axis'});  % 左侧y轴标签
+% set(Ax(2), 'YLabel', {'Right Y-axis'}); % 右侧y轴标签
+title('Labeling plotyy');
+% 设置图线属性
+set(H1,'LineStyle','--');
+set(H2,'LineStyle',':');
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270230183.png)
 
+```matlab
+plotyy(x1, y1, x2, y2)                  % 基础用法：左轴绘(x1,y1)，右轴绘(x2,y2)
+plotyy(x1, y1, x2, y2, 'function1', 'function2')  % 自定义绘图函数（如用semilogx绘制）
+plotyy(x1, y1, x2, y2, LineSpec1, LineSpec2)      % 指定两条曲线的线条样式
+[ax, h1, h2] = plotyy(...)              % 返回句柄：ax为两轴句柄，h1/h2为两曲线句柄
+```
 
+- **`x1, y1`**：第一条曲线的 x、y 数据（对应左侧 y 轴）；
+- **`x2, y2`**：第二条曲线的 x、y 数据（对应右侧 y 轴）；
+- **`'function1', 'function2'`**：可选，指定绘图函数（如 `'plot'`、`'semilogx'` 等），默认均为 `'plot'`；
+- **`LineSpec1, LineSpec2`**：可选，线条规范字符串（如 `'r--o'` 表示红色虚线 + 圆圈标记）；
+- 返回值：
+  - `ax`：长度为 2 的向量，`ax(1)` 是左侧 y 轴句柄，`ax(2)` 是右侧 y 轴句柄；
+  - `h1`：第一条曲线的句柄；
+  - `h2`：第二条曲线的句柄。
 
 
 
 
 
+#### **1.3、Histogram：**
 
+```matlab
+y = randn(1,1000);			% 生成满足正态分布的随机矩阵
+subplot(2,1,1);
+hist(y,10);
+title('Bins = 10');
+subplot(2,1,2);
+hist(y,50);
+title('Bins = 50');
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509270247341.png)
 
+```matlab
+hist(data)                  % 基础用法：用默认10个分箱绘制data的直方图
+hist(data, nbins)           % 自定义分箱数量：用nbins个分箱绘制
+hist(data, edges)           % 自定义分箱边缘：edges为分箱的边界向量（如[0,2,4,6]）
+[n, x] = hist(data, ...)    % 返回频数和分箱位置：n是频数向量，x是分箱中点/边缘
+```
 
+- **`data`**：输入数据（向量或矩阵）。若为矩阵，`hist` 会按列绘制每列数据的直方图（用不同颜色区分）；
+- **`nbins`**：整数，指定分箱数量（默认 10 个），值越大分箱越密集，细节越丰富（）；
+- **`edges`**：向量，指定分箱的**边界**（如 `[0, 1, 2, 3]` 表示 3 个分箱：[0,1)、[1,2)、[2,3]），需单调递增；
+- 返回值：
+  - `n`：频数向量，`n(i)` 表示第 `i` 个分箱内的数据点数量；
+  - `x`：分箱的位置向量，若用 `nbins` 则 `x` 是分箱中点，若用 `edges` 则 `x` 是分箱边缘。
 
+该函数
 
 
 
 
 
+#### **1.4、Bar Charts：**
 
+- **`bar`（条形图）**：用于**比较不同类别（或分组）的数值大小**，重点是 “类别间的差异对比”。例如：比较不同城市的平均温度、不同产品的销量、不同月份的降雨量等。
+- **`hist`（直方图）**：用于**展示单个连续变量的分布特征**（如集中趋势、离散程度、是否对称等），重点是 “数据在不同区间的分布规律”。例如：分析学生成绩的分布（多少人在 60-70 分，多少人在 70-80 分）、身高数据的分布等。
 
+- **`bar`**：输入数据通常包含 **“类别” 和 “对应数值”** 两部分：
 
+  - 类别：离散的、互斥的分组（如 “城市 A”“城市 B”“城市 C”，或 “1 月”“2 月”“3 月”）；
 
+  - 数值：每个类别对应的具体数值（如温度、销量等）。
 
+    例如：
 
+    ```matlab
+    x = ["城市A", "城市B", "城市C"]; y = [25, 28, 22]; bar(x, y)
+    ```
 
+- **`hist`**：输入数据是**单个连续变量的观测值**（无类别，只有数值本身），需要通过 “分箱（bins）” 将连续数据划分为若干区间，统计每个区间的频数。例如：`data = [65, 72, 88, 75, 68, 90, ...]; hist(data)`（分析成绩分布）。
 
+```matlab
+x = [1 2 3 4 5];
+y = [x;1:5];
+subplot(1,3,1);		bar(x);		title('A bargraph of vector x');	set(gca,'YLim',[0,8]);
+subplot(1,3,2);		bar(y);		title('A bargraph of vector y');	set(gca,'YLim',[0,8]);
+subplot(1,3,3);		bar3(y);	title('A 3D bargraph');				set(gca,'ZLim',[0,10]); %3d图
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271146209.png)
 
+- **Stacked and Horizontal Bar Charts（堆叠和水平条形图）：**
 
+```matlab
+x = [1 2 5 4 8];
+y = [x;1:5];
+subplot(1,2,1);				bar(y,'stacked');				title('Stacked');
+subplot(1,2,2);				barh(y);						title('Horizontal');
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271201939.png)
 
+```matlab
+% 1. 基础用法：单组数据（默认垂直条形图）
+bar(y)                  % y为数值向量，x轴自动为1,2,...（类别索引）
+bar(x, y)               % x为类别标签（数值/字符串），y为对应数值
 
+% 2. 多组数据：分组或堆叠展示
+bar(x, Y)               % Y为矩阵（每行对应一个x类别，每列对应一组数据），默认分组展示
+bar(x, Y, 'stacked')    % 多组数据堆叠展示（同一类别内的条形堆叠）
 
+% 3. 水平条形图（适合类别名称较长的场景）
+barh(y)                 % 水平条形图，y轴为类别，x轴为数值
+barh(x, y)              % 水平条形图，自定义类别标签
 
+% 4. 返回句柄（用于后续修改属性）
+h = bar(...)            % h为条形图对象句柄，可通过set(h, ...)修改样式
+```
 
+**参数解析：**
 
+- **`x`**：类别标签（可选），可以是：
+  - 数值向量（如 `[1,2,3]`）：表示类别索引；
+  - 分类变量（categorical类型）：适合有明确分类的场景。
+  - 若省略x，默认用1,2,...,n作为类别标签（n为y的长度）。
+  - **输入参数必须为数值、日期时间、持续时间或分类值。**
+- **`y`/`Y`**：数值数据：
+  - 向量 `y`：单组数据，每个元素对应一个类别的数值；
+  - 矩阵 `Y`：多组数据（`Y` 的行数 = 类别数（多少组条形图），列数 = 组数），默认按列分组展示。
+- **`'stacked'`**：可选参数，指定多组数据 “堆叠展示”（同一类别内的条形上下堆叠，总高度为各组数值之和）。
+- **返回值 `h`**：条形图对象的句柄，通过 `h` 可修改条形的颜色、宽度、边缘样式等属性。
 
+**Exercise:**
 
+- stack the horizontal bar chart（堆叠水平条形图）：
 
+```matlab
+x = [1 2 5 4 8];
+y = [x;1:5];
+subplot(1,2,1);				barh(y,'stacked');				title('Stacked');
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271229968.png)
 
 
 
 
 
+#### **1.5、Pie Charts：**
 
+```matlab
 
-
-
-
-
-
-
-
-
-
+```
 
 
 
