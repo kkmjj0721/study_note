@@ -2068,75 +2068,192 @@ subplot(1,2,1);				barh(y,'stacked');				title('Stacked');
 
 #### **1.5、Pie Charts：**
 
-```matlab
+​		`pie` 的核心作用是：
 
+1. 计算输入数据中每个元素占总和的**百分比**（自动归一化，总和无需为 1）；
+2. 以扇形（楔形）面积表示该百分比（面积越大，占比越高）；
+3. 可选添加标签（显示类别名称和百分比）、分离特定扇形（突出重要部分），使比例关系更清晰。
+
+```matlab
+a = [10 5 20 30];
+subplot(1,3,1);		pie(a);
+subplot(1,3,2);		pie(a,[0 0 0 1]);
+subplot(1,3,3);		pie3(a,[0 0 0 1]);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271411486.png)
+
+```matlab
+% 1. 基础用法：仅输入数据（自动计算百分比）
+pie(X)                  % X为非负数值向量，每个元素对应一个扇形
+
+% 2. 带类别标签：显示类别名称和百分比
+pie(X, labels)          % labels为字符串数组/元胞数组，指定每个扇形的类别名称
+
+% 3. 突出显示部分扇形：将指定扇形从饼图中分离
+pie(X, explode)         % explode为0/1向量，1表示对应扇形分离，0表示不分离
+pie(X, labels, explode) % 同时指定标签和分离扇形
+
+% 4. 返回句柄（用于修改样式，如颜色、字体等）
+h = pie(...)            % h为饼图对象句柄，可通过set(h, ...)自定义外观
+```
+
+**参数解析：**
+
+- **`X`**：输入数据（核心参数），必须是**非负数值向量**（若含负值，`pie` 会自动忽略；若含零值，对应扇形不显示）。
+  - 例如：`X = [30, 50, 20]` 表示三个部分，总和为 100，占比分别为 30%、50%、20%。
+- **`labels`**：类别标签（可选），用于说明每个扇形的含义，需与 `X` 长度一致：
+  - 可以是字符串数组（如 `["A", "B", "C"]`）或元胞数组（如 `{'A', 'B', 'C'}`）；
+  - 若省略，默认不显示类别名称，仅显示百分比。
+- **`explode`**：分离控制向量（可选），与 `X` 长度一致，元素为 `0` 或 `1`：
+  - `1`：对应扇形从饼图中心分离（突出显示）；
+  - `0`：扇形保持与饼图整体连接（默认）。
+
+
+
+
+
+#### **1.6、Polar Chart：**
+
+
+
+```matlab
+x = 1:100;
+theta = x/10;					r = log10(x);
+subplot(1,4,1);		polar(theta,r);
+
+theta = linspace(0,2*pi);		r = cos(4*theta);
+subplot(1,4,2);		polar(theta,r);
+
+theta = linspace(0,2*pi,6);		r = ones(1,length(theta));
+subplot(1,4,3);		polar(theta,r);
+
+theta = linspace(0,2*pi);		r = 1-sin(theta);
+subplot(1,4,4);		polar(theta,r);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271455878.png)
+
+**Exercise：**
+
+- plot a hexagon on a polar chart（在极坐标图上绘制六边形）；		
+
+```matlab
+theta = linspace(0,2*pi,7);		r = ones(1,length(theta));
+polar(theta,r);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271502952.png)
+
+```matlab
+polar(theta, rho)            % 绘制极坐标曲线，theta为角度（弧度），rho为半径
+polar(theta, rho, LineSpec)  % 指定线条样式（如颜色、线型、标记，同plot函数）
+```
+
+- **`theta`**：角度向量，单位为**弧度**（若为角度制，需用 `deg2rad` 转换，如 `deg2rad(0:360)`）。
+- **`rho`**：半径向量，与 `theta` 长度一致，**非负**（负值会被截断为 0，因极坐标半径无方向）。
+- **`LineSpec`**：可选，线条样式字符串（如 `'r-'` 表示红色实线，`'bo'` 表示蓝色圆圈标记）。
+
+
+
+
+
+
+
+### **2、Stairs and Stem Charts（楼梯图和杆状图）：**
+
+```matlab
+x = linspace(0,4*pi,40);
+y = sin(x);
+subplot(1,2,1);		stairs(y);
+subplot(1,2,2);		stem(y);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271513625.png)
+
+
+
+- **stairs：**
+
+​		通过**水平线段**和**垂直线段**连接离散数据点，形成类似 “阶梯” 的图形，直观呈现数据从一个值到另一个值的**突变过程**（如数字信号的 “采样 - 保持” 特性）。
+
+```matlab
+stairs(y)               % y为数值向量，x轴默认1,2,...（数据索引）
+stairs(x, y)            % x为横坐标向量，y为对应数值（x需单调递增）
+stairs(x, y, LineSpec)  % 用LineSpec指定线条样式（如颜色、线型、标记）
+h = stairs(...)         % 返回句柄，用于修改样式（如线宽、颜色）
+```
+
+- **stem：**
+
+​		通过**垂直 “杆”\**和\**顶部标记**展示离散数据点，每个点用一条从 x 轴（y=0）延伸到 (xi, yi) 的垂直线（杆）表示，顶部用标记（如圆圈、方块）强调点的位置，适合突出离散数据的**个体位置**（如离散时间信号、采样点）。
+
+```matlab
+stem(y)               % y为数值向量，x轴默认1,2,...（数据索引）
+stem(x, y)            % x为横坐标向量，y为对应数值
+stem(x, y, LineSpec)  % 用LineSpec指定杆和标记的样式
+h = stem(...)         % 返回句柄，可分别修改杆（Stem）和标记（Marker）的样式
 ```
 
 
 
+| 维度     | `stairs`（阶梯图）                                           | `stem`（杆状图）                                             |
+| -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 图形结构 | 水平线段（保持）+ 垂直线段（突变）连接点                     | 垂直杆（从 x 轴到点）+ 顶部标记，点间无连线                  |
+| 核心含义 | 强调数据在区间内的 “保持” 特性                               | 强调离散点的 “个体位置”，点间独立                            |
+| 适用场景 | 1. 数字信号的 “采样 - 保持” 过程（如 DAC 输出）2. 分段常数函数（如阶梯电价、阶梯税率） | 1. 离散时间信号（如采样点、序列值）2. 孤立数据点的位置展示（如实验测量的离散结果） |
+
+
+
+**Exercise：**
+
+- Plot a function：f(t) = sin( π*t^2/4 )
+- Add the points sampled at 5 Hz using **stem()**
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271550258.png)
+
+```matlab
+t = [0:0.2:10];
+y = sin(pi*t.^2/4);
+hold on
+plot(t,y);
+stem(t,y);
+hold off
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271600409.png)
 
 
 
 
 
+### **3、Boxplot and Error Bar（箱线图和误差线）：**
 
+- **Boxplot：**
 
+例：
 
+```matlab
+load carsmall;
+boxplot(MPG,Origin);
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271635712.png)
 
+- **Error Bar：**
 
+例：
 
+```matlab
+x = 0:pi/10:pi;
+y = sin(x);
+e = std(y)*ones(size(x));
+errorbar(x,y,e);
+```
 
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509271634306.png)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+现在来详细讲讲这个绘图函数：
 
 
 
