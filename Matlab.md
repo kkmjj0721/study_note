@@ -1811,11 +1811,11 @@ subplot(2,2,4);				plot(x,y);				axis equal tight
 
 ### **11、Control of Grid, Box, and Axis（控制网格、框和轴）：**
 
-- grid on/off：Make the grid visible or invisible（使网格可见或不可见）
-- box on/off：Make the box visible or invisible（使框可见或不可见）
-- axis on/off：Make the axes visible or invisible（使坐标轴可见或不可见）
+- grid on/off：Make the grid visible or invisible（使网格可见或不可见）；
+- box on/off：Make the box visible or invisible（使框可见或不可见）；
+- axis on/off：Make the axes visible or invisible（使坐标轴可见或不可见）；
 - axis normal：Automaticaliy adiust the aspect ratio of the axesand the relative scaling of the data units
-- axis square：Make the current axes region square
+- axis square：Make the current axes region square（将x轴与y轴的比例变成方形）；
 - axis equal：Set the aspect ratio so that the data units are the same in every direction
 - axis equal tight：Set the axis limits to the range of the data
 - axis image：Let the plot box fits tightly around the data
@@ -2303,6 +2303,87 @@ h = errorbar(...)              % h为误差线对象句柄
 
 
 
+### **4、fill( ):**
+
+​		`fill` 函数用于绘制**填充多边形**，核心功能是通过指定多边形的顶点坐标，自动连接顶点形成封闭图形，并填充内部区域（可自定义填充颜色、边缘样式等）。与 `plot` 等仅绘制线条的函数不同，`fill` 强调 “区域填充”，适合创建自定义形状、区域划分图、复杂封闭图形等场景。
+
+**核心作用是：**
+
+1. 根据输入的顶点坐标（x, y），按顺序连接顶点形成**封闭多边形**（自动连接最后一个顶点与第一个顶点，确保图形闭合）；
+2. 对多边形的**内部区域**进行填充（颜色可自定义）；
+3. 可同时绘制多个多边形（通过矩阵输入顶点坐标），并分别设置样式。
+
+```matlab
+% 1. 基本用法：绘制单个多边形
+fill(X, Y, C)               % X,Y为顶点坐标向量（长度相同），C为填充颜色
+
+% 2. 绘制多个多边形（矩阵输入）
+fill(X, Y, C)               % X,Y为矩阵（每列对应一个多边形的顶点坐标），C指定颜色
+
+% 3. 自定义边缘和填充样式
+fill(X, Y, C, LineSpec)     % LineSpec指定边缘线条样式（颜色、线型、线宽）
+fill(..., Name, Value)      % 属性-值对自定义填充/边缘属性（如透明度、边缘颜色）
+
+% 4. 返回句柄（用于后续修改属性）
+h = fill(...)               % h为填充对象句柄，可通过set(h, ...)修改样式
+```
+
+**参数解析：**
+
+- **`X, Y`**：顶点坐标（核心参数），决定多边形的形状：
+
+  - **向量**：`X = [x1, x2, ..., xn]`，`Y = [y1, y2, ..., yn]` 表示一个多边形，顶点为 \((x1,y1) → (x2,y2) → ... → (xn,yn) → (x1,y1)\)（自动闭合）；
+  - **矩阵**：`X` 和 `Y` 为 \(m×n\) 矩阵（m 为顶点数，n 为多边形数），每列对应一个多边形的顶点坐标（如第 1 列是第一个多边形的顶点，第 2 列是第二个多边形的顶点）。
+
+- **`C`**：填充颜色（关键参数），支持多种指定方式：
+
+  - **颜色名称**：如 `'red'`、`'blue'`、`'green'` 等（对所有多边形使用同一颜色）；
+  - **RGB 三元组**：如 `[1,0,0]`（红色）、`[0,1,0]`（绿色），范围 0~1（对所有多边形使用同一颜色）；
+  - **颜色索引**：如 `1`（MATLAB 默认颜色图的第 1 个颜色）、`2`（第 2 个），需结合颜色图使用；
+  - **向量 / 矩阵**：长度与多边形数相同（或与顶点数相同），为每个多边形（或每个顶点）指定颜色（顶点颜色会自动渐变填充）。
+
+- **`LineSpec`**：边缘线条样式（可选），如 `'k-'` 表示黑色实线，`'r--'` 表示红色虚线（与 `plot` 函数的 `LineSpec` 规则一致）。
+
+- **属性 - 值对**：自定义填充和边缘细节，常用属性：
+
+  - `'FaceColor'`：填充颜色（优先级高于 `C`，可覆盖 `C` 的设置）；
+  - `'EdgeColor'`：边缘颜色（如 `'black'`、`'none'` 表示无边缘）；
+  - `'LineWidth'`：边缘线宽（如 `1.5`）；
+  - `'Alpha'`：填充透明度（0~1，0 为完全透明，1 为不透明）；
+  - `'FaceAlpha'`：仅填充区域的透明度（不影响边缘）。
+  - `'EdgeAlpha'`：边缘透明度（0~1）
+
+  
+
+- **Stop sign**
+
+```matlab
+t = (1:2:15)'*pi/8;
+x = sin(t);
+y = cos(t);
+fill(x,y,'r');				% 绘图
+axis square;
+text(0,0,'STOP','Color','w','Fontsize',80,'Fontweight','bold','HorizontalAlignment','center');
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509280859369.png)
+
+
+
+**Exercise：**
+
+- plot a wait sign
+
+```matlab
+t = (0:1:3)*pi/2;
+x = cos(t);
+y = sin(t);
+fill(x,y,'y','EdgeColor','k','LineWidth',3);
+axis square;
+text(0,0,'WAIT','Color','k','Fontsize',70,'Fontweight','bold','HorizontalAlignment','center');
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509280914411.png)
 
 
 
@@ -2310,6 +2391,14 @@ h = errorbar(...)              % h为误差线对象句柄
 
 
 
+### **5、Color Space：**
+
+- [R G B]
+  - 0 is minimum
+  - 1 is maximum
+  - 8-bit equivalence
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509280927130.png)
 
 
 
@@ -2317,6 +2406,38 @@ h = errorbar(...)              % h为误差线对象句柄
 
 
 
+### **6、Visualizing Data as An lmage（将数据可视化为图像）：** 
+
+- imagesc()
+- Display values of a matrix as an “image
+
+```matlab
+[x,y] = meshgrid(-3:.2:3,-3:.2:3);
+z = x.^2 + x.*y + y.^2;
+surf(x,y,z);
+box on;
+set(gca,'FontSize',16);
+zlabel('z');
+xlim([-4,4]);			xlabel('x');
+ylim([-4,4]);			ylabel('y');
+```
+
+```matlab
+imagesc(z);
+axis square;
+xlabel('x');
+ylabel('y');
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509280938368.png)
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509280938368.png)
+
+**6.1、Color Bar and Scheme：**
+
+- colorbar
+
+​		![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509281002302.png)
 
 
 
@@ -2324,6 +2445,17 @@ h = errorbar(...)              % h为误差线对象句柄
 
 
 
+### **7、Built-in Colormaps（内置颜色映射）：**
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509281006513.png)
+
+- Use built-in color maps：
+
+```matlab
+colormap([name]);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509281049519.png)
 
 
 
@@ -2331,39 +2463,7 @@ h = errorbar(...)              % h为误差线对象句柄
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### **8、3D Plot( ):**
 
 
 
