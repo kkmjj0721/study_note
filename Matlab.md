@@ -2465,29 +2465,103 @@ colormap([name]);
 
 ### **8、3D Plot( ):**
 
+#### **8.1、Function：**
+
+- plot3：3-D line plot；
+- surf：3-D shaded surface plot
+- surfc：Contour plot under a 3-D shaded surface plot；
+- surface：Create surface object；
+- meshc：Plot a contour graph under mesh graph；
+- contour：Contour plot of matrix；
+- contourf：Filled 2-D contour plot；
+
+##### **8.1.1、plot3：**
+
+```matlab
+% 1. 绘制单条三维曲线
+plot3(x, y, z)                 % x,y,z为同长度向量，按顺序连接点(x_i,y_i,z_i)
+plot3(x, y, z, LineSpec)       % LineSpec指定线条/标记样式（如颜色、线型、标记）
+
+% 2. 绘制多条三维曲线（矩阵输入）
+plot3(X, Y, Z)                 % X,Y,Z为同尺寸矩阵，每列对应一条曲线
+plot3(X, Y, Z, LineSpec)       % 为所有曲线指定统一样式
+
+% 3. 自定义样式（名称-值对）
+plot3(..., Name, Value)        % 如线宽、标记大小等属性（'LineWidth', 1.5等）
+
+% 4. 返回句柄（用于后续修改属性）
+h = plot3(...)                 % h为曲线对象句柄，可通过set(h, ...)修改样式
+```
+
+**参数解析：**
+
+- **`x, y, z`（向量）**：当输入为**向量**时，三者必须长度相同（设为 n），表示 n 个三维点的坐标：\((x(1), y(1), z(1)), (x(2), y(2), z(2)), ..., (x(n), y(n), z(n))\)。`plot3` 会按索引顺序连接这些点，形成一条三维折线。
+- **`X, Y, Z`（矩阵）**：当输入为**矩阵**时，三者必须尺寸相同（设为 \(m×n\)），每一列对应一条三维曲线：第 k 列的 m 个元素构成第 k 条曲线的坐标 \((X(1,k), Y(1,k), Z(1,k)), ..., (X(m,k), Y(m,k), Z(m,k))\)。此时 `plot3` 会一次性绘制 n 条三维曲线。
+- **`LineSpec`**：字符串参数，用于指定线条颜色、线型和标记样式（与二维 `plot` 一致），常见组合如下：
+  - `'r-'`：红色实线（无标记）
+  - `'bo--'`：蓝色圆圈标记 + 虚线
+  - `'g*:'`：绿色星号标记 + 点线
+  - 颜色：`'r'`（红）、`'g'`（绿）、`'b'`（蓝）等；
+  - 线型：`'-'`（实线）、`'--'`（虚线）、`':'`（点线）等；
+  - 标记：`'o'`（圆圈）、`'*'`（星号）、`'s'`（正方形）等。
+- **名称 - 值对属性**：用于更精细地自定义曲线样式，常用属性包括：
+  - `'LineWidth'`：线宽（默认 0.5 磅，如 `1.5`）；
+  - `'MarkerSize'`：标记大小（默认 6 磅，如 `8`）；
+  - `'MarkerEdgeColor'`：标记边缘颜色（如 `'black'`）；
+  - `'MarkerFaceColor'`：标记填充颜色（如 `'red'`）。
 
 
 
+**例：**
+
+```matlab
+x = 0:0.1:3*pi;
+z1 = sin(x);
+z2 = sin(2*x);
+z3 = sin(3*x);
+y1 = zeros(size(x));
+y3 = ones(size(x));
+y2 = y3./2;
+plot3(x,y1,z1,'r',x,y2,z2,'b',x,y3,z3,'g');
+grid on;
+xlabel('x-axis');
+ylabel('y-axis');
+zlabel('z-axis');
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509302334305.png)
+
+- More 3D Line Plots：
+
+
+```matlab
+t = 0:pi/50:10*pi;
+plot3(sin(t),cos(t),t);
+grid on;
+axis square;
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509302337343.png)
+
+```matlab
+turns = 40*pi;
+t = linspace(0,turns,4000);
+x = cos(t).*(turns - t)./turns;
+y = sin(t).*(turns - t)./turns;
+z = t./turns;
+plot3(x,y,z);
+grid on;
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202509302343796.png)
 
 
 
+##### **8.1.2、Principles for 3D Surface Plots：**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Usually for plotting functions: z = f(x, y)；
+- Need to provide MATLAB a set of (x, y,z)points；
+- Use meshgrid to create matrices X and Y for a given range；
 
 
 
