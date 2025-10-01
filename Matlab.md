@@ -12,8 +12,6 @@
 
 **5.进阶绘图**
 
-**6.图形界面-GUI程序设计**
-
 
 
 
@@ -2731,49 +2729,6 @@ grid on;
 ```
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011621324.png)
-
-
-
-
-
-
-
-
-
-## **六、图形界面-GUI程序设计：**
-
-### **1、Starting A GUl Program：**
-
-1. Set your “current folder” where you want to store the GUl program（设置你想要存储GUI程序的“当前文件夹“）
-2. Type guide (graphical user interface design environment) in the command window to create a MATLAB GUl interactively（在命令窗口中输`guide`(图形用户界面设计环境)以交互式创建MATLAB GUI）
-
-**注：本文中使用的matlab为2023a，请输入`appdesigner`**；
-
-![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011707520.png)
-
-我们在这创建一个空白的即可；
-
-![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011711011.png)
-
-我们按下面这样的操作即可：
-
-![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011729770.png)
-
-然后我们点击运行，保存文件；会生成一个app；
-
-![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011736929.png)
-
-
-
-- **Align the Components（对齐组件）**
-
-选中组件；在上方工具栏会有对齐按钮，如下：
-
-![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011744500.png)
-
-
-
-
 
 
 
