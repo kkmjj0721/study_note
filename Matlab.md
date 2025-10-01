@@ -12,7 +12,7 @@
 
 **5.进阶绘图**
 
-
+**6.图形界面-GUI程序设计**
 
 
 
@@ -1600,7 +1600,7 @@ get(gcf);
 - **Setting Axes Limits：**
 
 ```matlab
-set(handle, propertyName, propertyValue)                  % 为单个对象设置单个属性
+set(handle, propertyName, propertyValue)                   % 为单个对象设置单个属性
 set(handle, propertyName1, value1, propertyName2, value2)  % 为单个对象设置多个属性
 set(handle, struct)                                        % 用结构体批量设置多个属性
 set(handles, propertyName, propertyValue)                  % 为多个对象（句柄向量）设置同一属性
@@ -2561,7 +2561,176 @@ grid on;
 
 - Usually for plotting functions: z = f(x, y)；
 - Need to provide MATLAB a set of (x, y,z)points；
-- Use meshgrid to create matrices X and Y for a given range；
+- Use **meshgrid** to create matrices X and Y for a given range；
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011434795.png)
+
+我们可以看出这并不是Line，而是网格，我们可以使用`meshgrid`来创建一个网格矩阵，例：
+
+```matlab
+x = -2:1:2;
+y = -2:1:2;
+[X,Y] = meshgrid(x,y);				% 生成对应的X，Y网格矩阵；
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011440469.png)
+
+
+
+##### **8.1.3、Surface Plotsi： mesh( ) and surf( )：**
+
+```matlab
+x = -3.5:0.2:3.5;
+y = -3.5:0.2:3.5;
+[X,Y] = meshgrid(x,y);
+Z = X.*exp(-X.^2-Y.^2);
+subplot(1,2,1);				mesh(X,Y,Z);			axis square;
+subplot(1,2,2);				surf(X,Y,Z);			axis square;
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011451372.png)
+
+
+
+##### **8.1.4、contour( )：**
+
+```matlab
+contour(Z)               		% 用默认坐标和等高线数量绘制
+contour(X, Y, Z)         		% 指定X、Y坐标
+contour(X, Y, Z, levels) 		% 指定等高线的数量或具体值
+contour(..., Name, Value) 		% 带属性设置的调用
+```
+
+**参数说明:**
+
+1. **Z（必选）**表示高度数据的矩阵（维度为 \(m \times n\)），等值线由 Z 的相同值连接而成。
+   - 若仅输入`contour(Z)`，MATLAB 默认 X 轴为列索引（`1:n`），Y 轴为行索引（`1:m`）。
+2. **X, Y（可选）**指定等高线的坐标范围，有两种输入形式：
+   - 向量：`X`（长度为n）对应 Z 的列，`Y`（长度为m）对应 Z 的行，MATLAB 会通过`meshgrid(X,Y)`生成网格（与`mesh`函数一致）。
+   - 矩阵：`X`和`Y`必须与`Z`同维度（\(m \times n\)），直接定义每个网格点的坐标（适用于非均匀网格）。
+3. **levels（可选）**控制等高线的数量或具体值：
+   - 若为正整数（如`5`）：自动生成指定数量的等高线（均匀分布）。
+   - 若为向量（如`[-2, 0, 2, 4]`）：仅在向量指定的 Z 值处绘制等高线。
+4. **Name, Value（可选）**通过 “属性名 - 属性值” 对调整样式，常用属性：
+   - `'LineColor'`：等高线颜色（如`'r'`红色、`[0.5,0.5,0.5]`灰色，或`'flat'`按 Z 值映射颜色）。
+   - `'LineWidth'`：线条宽度（数值越大线越粗）。
+   - `'ShowText'`：是否显示等高线数值（`'on'`/`'off'`，默认`'off'`）。
+
+- Projection of equal heights of 3D plot onto a 2D plane（三维图形中等高度点的投影到二维平面上，并用不同的颜色圈起来）；
+
+
+
+```matlab
+x = -3.5:0.2:3.5;
+y = -3.5:0.2:3.5;
+[X,Y] = meshgrid(x,y);
+Z = X.*exp(-X.^2-Y.^2);
+subplot(2,1,1);				mesh(X,Y,Z);			axis square;
+subplot(2,1,2);				contour(X,Y,Z);			axis square;
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011504924.png)
+
+- **Various Contour Plots：**
+
+```matlab
+x = -3.5:0.2:3.5;
+y = -3.5:0.2:3.5;
+[X,Y] = meshgrid(x,y);
+Z = X.*exp(-X.^2-Y.^2);
+subplot(1,3,1);			contour(Z,[-.45:.05:.45]);			axis square;
+subplot(1,3,2);		[c,h] = contour(Z);		clabel(c,h);	axis square;% c为等高线矩阵，h为图形句柄
+subplot(1,3,3);		contourf(Z);			axis square;
+
+
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011511700.png)
+
+
+
+##### **8.1.5、meshc( ) and surfc( )：**
+
+- Combination of surface/mesh and contours；
+
+这两个函数与上面相比只是多带了个c，即，不只画出3维图形，再其下面也会生成等高线图；
+
+例：
+
+```matlab
+x = -3.5:0.2:3.5;
+y = -3.5:0.2:3.5;
+[X,Y] = meshgrid(x,y);
+Z = X.*exp(-X.^2-Y.^2);
+subplot(1,2,1);				meshc(X,Y,Z);		axis square;
+subplot(1,2,2);				surfc(X,Y,Z);		axis square;
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011556247.png)
+
+
+
+##### **8.1.6、View Angle：view( )**
+
+- Vary the view angle（改变视角）
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011559562.png)
+
+```matlab
+sphere(50);
+shading flat;
+light('position',[1 3 2]);
+light('position',[-3 -1 3]);
+material shiny;
+axis vis3d off;
+set(gcf,'Color',[1 1 1]);
+view(10,-17);
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011605738.png)
+
+
+
+##### **8.1.7、patch( )**
+
+`patch`函数用于创建**多边形图形对象**，支持 2D 和 3D 多边形的绘制，可自定义填充颜色、边缘样式等属性，是绘制复杂形状、自定义区域或组合图形的核心工具。
+
+```matlab
+patch(X, Y, C)                 % 2D多边形：X/Y为顶点坐标，C为颜色
+patch(X, Y, Z, C)              % 3D多边形：添加Z坐标
+patch('XData', X, 'YData', Y, 'FaceColor', C, ...)  % 属性名-值对形式
+patch(fv)                      % 通过结构体fv定义（包含vertices和faces）
+```
+
+**核心参数说明：**
+
+1. **顶点坐标（X, Y, Z）**定义多边形的顶点位置：
+   - 2D 场景：`X`和`Y`为向量（长度为`N`），表示`N`个顶点的`x`和`y`坐标。
+   - 3D 场景：增加`Z`向量（长度`N`），表示顶点的`z`坐标。
+   - 若要绘制多个多边形，`X`、`Y`、`Z`可以是矩阵（每列对应一个多边形的顶点）。
+2. **面（Faces）**定义 “哪些顶点组成一个多边形”，通过**顶点索引**实现（默认不指定时，按顶点顺序连成单个多边形）：
+   - 若为向量`[v1, v2, ..., vk]`：表示一个多边形由第`v1`、`v2`、…、`vk`个顶点组成。
+   - 若为矩阵（每行对应一个面）：`faces(m,:) = [v1, v2, ..., vk]` 表示第`m`个多边形由这些顶点组成。
+3. **颜色（C）**指定多边形的填充颜色，支持多种形式：
+   - 标量：所有多边形使用同一颜色（如`1`对应颜色图第 1 个颜色，`'r'`直接指定红色）。
+   - 向量：长度与多边形数量相同，每个元素对应一个多边形的颜色。
+   - 矩阵：与顶点数量匹配，颜色在顶点间插值（需配合`'FaceColor','interp'`）。
+
+
+
+- A graphical object containing polygons
+
+```matlab
+v = [0 0 0;1 0 0;1 1 0;0 1 0;0.25 0.25 1;...
+	 0.75 0.25 1;0.75 0.75 1;0.25 0.75 1];					% 多边形顶点
+f = [1 2 3 4;5 6 7 8;1 2 6 5;2 3 7 6;3 4 8 7;4 1 5 8];		% 哪几个顶点变成一个面
+patch('Vertices',v,'Faces',f,'FaceVertexCData',hsv(6),'FaceColor','flat');
+view(3);
+axis square tight;
+grid on;
+```
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011621324.png)
 
 
 
@@ -2571,21 +2740,36 @@ grid on;
 
 
 
+## **六、图形界面-GUI程序设计：**
+
+### **1、Starting A GUl Program：**
+
+1. Set your “current folder” where you want to store the GUl program（设置你想要存储GUI程序的“当前文件夹“）
+2. Type guide (graphical user interface design environment) in the command window to create a MATLAB GUl interactively（在命令窗口中输`guide`(图形用户界面设计环境)以交互式创建MATLAB GUI）
+
+**注：本文中使用的matlab为2023a，请输入`appdesigner`**；
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011707520.png)
+
+我们在这创建一个空白的即可；
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011711011.png)
+
+我们按下面这样的操作即可：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011729770.png)
+
+然后我们点击运行，保存文件；会生成一个app；
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011736929.png)
 
 
 
+- **Align the Components（对齐组件）**
 
+选中组件；在上方工具栏会有对齐按钮，如下：
 
-
-
-
-
-
-
-
-
-
-
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510011744500.png)
 
 
 
