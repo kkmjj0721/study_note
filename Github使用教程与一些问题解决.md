@@ -8,11 +8,19 @@
 
 安装步骤：
 
-- ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160031760.png)双击即可；
-- ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160032385.png)出现该界面
-- 一直下一步，直到到该下面两个界面![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160033261.png)
+- ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160031760.png)
 
-![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160034156.png)按图中选择即可；
+  双击即可；
+- ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160032385.png)
+
+  出现该界面
+- 一直下一步，直到到该下面两个界面
+
+  ​	![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160033261.png)
+
+​	![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160034156.png)
+
+按图中选择即可；
 
 - 一直下一步到“**install**”
 - 至此我们安装git结束；在安装的时候我们可以去创建一个github账号（注意需记得自己的“**名字**”以及“**创建邮箱**”）
@@ -23,7 +31,7 @@
 
 - 在搜索框搜索**git**![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160039445.png)点击**git bash**;
 
-- ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160040681.png)
+  ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160040681.png)
 
 - 1).先输入:
 
@@ -95,16 +103,33 @@
 
 ### **3、创建仓库并提交：**
 
-- 我们回到github的主页面：![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181443418.png)
+- 我们回到github的主页面：
 
+  ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181443418.png)
 
-​		在左上角有一个**new**，点击，创建一个仓库；如，我这里创建一个测试github提交的仓库：![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181446589.png)![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181447261.png)这样就成功创建了一个仓库；
+​		在左上角有一个**new**，点击，创建一个仓库；如，我这里创建一个测试github提交的仓库：
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181446589.png)
+
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181447261.png)
+
+​		这样就成功创建了一个仓库；
 
 - 接下来：我们在随便一个地方创建一个文件夹，用于本地存储：
 
-​		如：![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181449582.png)
+​		如：
 
-​		然后我们回到github，将这一串链接复制下来；![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181450891.png)再回到我们刚刚创建的文件夹内，右键，找到![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181451385.png)点击，会出现一个命令行，然后我们将仓库克隆到本地：
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181449582.png)
+
+​		然后我们回到github，将这一串链接复制下来；
+
+​		![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181450891.png)
+
+​		再回到我们刚刚创建的文件夹内，右键，找到
+
+​		![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181451385.png)
+
+​		点击，会出现一个命令行，然后我们将仓库克隆到本地：
 
 ```
 git clone 刚刚复制的链接
