@@ -8,12 +8,14 @@
 
 安装步骤：
 
-- ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160031760.png)
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160031760.png)
 
-  双击即可；
-- ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160032385.png)
+双击即可；
 
-  出现该界面
+![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160032385.png)
+
+出现该界面
+
 - 一直下一步，直到到该下面两个界面
 
   ​	![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510160033261.png)
