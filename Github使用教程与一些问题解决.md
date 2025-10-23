@@ -229,6 +229,8 @@ git config --global -l
 
 ![](https://cdn.jsdelivr.net/gh/KKMJJ0721/Blog_pic/202510181515409.png)
 
+或者使用SSH进行clone；
+
 
 
 
@@ -251,3 +253,4 @@ git config --global -l
 ### **3、最后：**
 
 ​		欢迎大家指出本文中的错误部分，并且将其补充完整；
+
